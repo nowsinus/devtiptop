@@ -1,0 +1,54 @@
+mark.cbmark {
+    padding: 3px 10px 3px 10px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background: #ffba00;
+    color: #fff;
+}
+mark.cbsubscribed {
+    background: #3789e2;
+    color: #fff;
+}
+mark.cbmailsent {
+    background: green;
+    color: #fff;
+}
+mark.cbunsubscribed {
+    background: red;
+    color: #fff;
+}
+@media screen and (min-width: 600px) {    
+    #wpbody-content .quick-edit-row-page.inline-edit-callback .inline-edit-wrapper {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        padding-top: 40px;
+        position: relative;
+    }
+    #wpbody-content .quick-edit-row-page.inline-edit-callback .inline-edit-wrapper > fieldset {
+        display: table-cell;
+        vertical-align: inherit;
+        width: auto;
+        float: none;
+    }
+    #wpbody-content .quick-edit-row-page.inline-edit-callback .inline-edit-wrapper > fieldset:nth-of-type(1) legend.inline-edit-legend {
+        position: absolute;
+        left: 15px;
+        top: 0;
+    }
+    #wpbody-content .quick-edit-row-page.inline-edit-callback .inline-edit-wrapper > fieldset:nth-of-type(1) {
+      order: 6;
+    }    
+    #wpbody-content .quick-edit-row-page.inline-edit-callback .inline-edit-wrapper > fieldset:nth-of-type(2) {
+      order: 5;
+    }
+    #wpbody-content .quick-edit-row-page.inline-edit-callback .inline-edit-wrapper > fieldset:nth-of-type(6) {
+        padding-right: 12px !important;
+    }
+    #wpbody-content .quick-edit-row-page.inline-edit-callback .inline-edit-wrapper > fieldset:nth-of-type(2) span.title {
+        display: none;
+    }
+    #wpbody-content .quick-edit-row-page.inline-edit-callback .inline-edit-wrapper > fieldset.fieldset-callback input {
+        width: 100%;
+    }    
+  }

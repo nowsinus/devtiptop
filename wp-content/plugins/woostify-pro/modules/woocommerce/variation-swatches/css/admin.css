@@ -1,0 +1,149 @@
+.woostify-swatch-preview {
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  font-weight: 700;
+  border: 1px solid #ccc;
+}
+
+.woostify-variation-swatches-modal-container {
+  position: relative;
+  display: none;
+}
+
+.woostify-variation-swatches-modal {
+  transform: translate(-50%, -50%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 360px;
+  max-width: 90%;
+  z-index: 159990;
+  background-color: #fcfcfc;
+}
+
+.woostify-variation-swatches-modal input.error {
+  border-color: #dc3232;
+}
+
+.woostify-variation-swatches-modal-header, .woostify-variation-swatches-modal-content, .woostify-variation-swatches-modal-modal {
+  padding: 20px;
+}
+
+.woostify-variation-swatches-modal-header {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.woostify-variation-swatches-modal-content {
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  background-color: #fff;
+}
+
+.woostify-variation-swatches-modal-footer {
+  text-align: right;
+  padding: 10px 20px;
+}
+
+.woostify-variation-swatches-modal-footer .message,
+.woostify-variation-swatches-modal-footer .spinner {
+  float: left;
+}
+
+.woostify-variation-swatches-modal-footer .message.error {
+  color: #dc3232;
+}
+
+.woostify-variation-swatches-modal-footer .message.success {
+  color: #46b450;
+}
+
+.product_variation_images_container {
+  box-sizing: border-box;
+}
+
+.product_variation_images_container .product_variation_images:before, .product_variation_images_container .product_variation_images:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.product_variation_images_container .product_variation_images .image {
+  width: 80px;
+  float: left;
+  cursor: move;
+  border: 1px solid #d5d5d5;
+  margin: 9px 9px 0 0;
+  background: #f7f7f7;
+  border-radius: 2px;
+  position: relative;
+}
+
+.product_variation_images_container .product_variation_images .image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.product_variation_images_container .product_variation_images .image .actions {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  padding: 2px;
+  display: none;
+}
+
+.product_variation_images_container .product_variation_images .image .actions:before {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.product_variation_images_container .product_variation_images .image .actions:hover {
+  display: block;
+}
+
+.product_variation_images_container .product_variation_images .image .actions li {
+  float: right;
+  margin: 0 0 0 2px;
+}
+
+.product_variation_images_container .product_variation_images .image .actions a.delete {
+  display: block;
+  text-indent: -9999px;
+  position: relative;
+  height: 1em;
+  width: 1em;
+  font-size: 1.4em;
+  cursor: pointer;
+}
+
+.product_variation_images_container .product_variation_images .image .actions a.delete:before {
+  font-family: Dashicons;
+  font-weight: 400;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  text-indent: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  content: "\f153";
+  color: #999;
+  background: #fff;
+  border-radius: 50%;
+  height: 1em;
+  width: 1em;
+  line-height: 1em;
+}
+
+.product_variation_images_container .product_variation_images .image:hover .actions {
+  display: block;
+}
