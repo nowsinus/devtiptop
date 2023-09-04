@@ -867,6 +867,12 @@ body.berocket_ajax_filters_sidebar_active {
 .bapf_sfilter.bapf_clr_txt_left .bapf_body ul li label .bapf_clr_span {
     flex-shrink: 0;
 }
+.bapf_sfilter .brapf_disabled_checkbox {
+    opacity: 0.8;
+}
+.bapf_sfilter .brapf_disabled_checkbox input, .bapf_sfilter .brapf_disabled_checkbox label {
+    cursor: default!important;
+}
 .bapf_sfilter.bapf_button_berocket .bapf_button {
     font-size: 20px;
     padding: 8px 30px;

@@ -532,7 +532,12 @@ class SBI_Db {
 		global $wpdb;
 		$feeds_table_name       = $wpdb->prefix . 'sbi_feeds';
 		$feed_caches_table_name = $wpdb->prefix . 'sbi_feed_caches';
-		$feed_ids_array         = implode( ',', array_map( 'absint', $feed_ids_array ) );
+		
+		$sanitized_feed_ids_array = array();
+		foreach ( $feed_ids_array as $id ) {
+			$sanitized_feed_ids_array[] = absint( $id );
+		}
+		$feed_ids_array         = implode( ',', $sanitized_feed_ids_array );
 		$wpdb->query(
 			"DELETE FROM $feeds_table_name WHERE id IN ($feed_ids_array)"
 		);

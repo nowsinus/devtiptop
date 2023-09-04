@@ -514,6 +514,7 @@
     }
 }
 @media screen and (min-width: 1400px) {
+    .berocket_sbs_step.brsbs_filter_add_settings .berocket_sbs_content,
     .berocket_sbs_step.brsbs_additional .berocket_sbs_content,
     .berocket_sbs_step.brsbs_attribute_setup .berocket_sbs_content,
     .berocket_sbs_step.brsbs_required .berocket_sbs_content {

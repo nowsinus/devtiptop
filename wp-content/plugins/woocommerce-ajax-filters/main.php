@@ -165,7 +165,10 @@ class BeRocket_AAPF extends BeRocket_Framework {
             'fontawesome_frontend_version'    => '',
             'addons'                          => array(
                 DIRECTORY_SEPARATOR . 'additional_tables' . DIRECTORY_SEPARATOR . 'additional_tables.php'
-            )
+            ),
+            'products_only_shortcode'         => '',
+            'products_only_shortcode_per_page'=> '12',
+            'products_only_shortcode_pagiantion'=> '1',
         );
         $this->values = array(
             'settings_name' => 'br_filters_options',
@@ -265,6 +268,9 @@ class BeRocket_AAPF extends BeRocket_Framework {
                     }
                     if( ! empty($option['products_only']) ) {
                         add_filter('woocommerce_is_filtered', array($this, 'woocommerce_is_filtered'));
+                    }
+                    if( ! empty($option['products_only_shortcode']) ) {
+                        add_filter('product_categories_shortcode_tag', array($this, 'product_categories_shortcode_tag'));
                     }
                     if( ! empty($option['search_fix']) ) {
                         add_filter( 'woocommerce_redirect_single_search_result', '__return_false' );
@@ -954,6 +960,36 @@ class BeRocket_AAPF extends BeRocket_Framework {
                         "value"     => '1',
                         'label_for' => __('Always displays products, when filters are selected. Use the option when have categories and subcategories on the pages of your shop, and you want to display products when filtering.', 'BeRocket_AJAX_domain'),
                     ),
+                    'products_only_shortcode' => array(
+                        "label"     => __( 'Display products for Shortcode', "BeRocket_AJAX_domain" ),
+                        "type"      => "checkbox",
+                        "items" => array(
+                            "products_only_shortcode" => array(
+                                "type"      => "checkbox",
+                                "name"      => "products_only_shortcode",
+                                "value"     => '1',
+                                "class"     => "products_only_shortcode",
+                                'label_for' => __('Replace shortcode [product_categories] with [products]', 'BeRocket_AJAX_domain') . '<br>',
+                            ),
+                            'products_only_shortcode_per_page' => array(
+                                "type"      => "number",
+                                "name"      => "products_only_shortcode_per_page",
+                                "value"     => '12',
+                                "class"     => "products_only_shortcode_per_page",
+                                'label_for' => __('Products per page', 'BeRocket_AJAX_domain') . '<br>',
+                            ),
+                            'products_only_shortcode_pagiantion' => array(
+                                "type"      => "checkbox",
+                                "name"      => "products_only_shortcode_pagiantion",
+                                "value"     => '1',
+                                "class"     => "products_only_shortcode_pagiantion",
+                                'label_for' => __('Pagination', 'BeRocket_AJAX_domain') . '<br>',
+                            ),
+                        ),
+                        "name"      => "products_only",
+                        "value"     => '1',
+                        'label_for' => __('Replace shortcode [product_categories] with [products]', 'BeRocket_AJAX_domain'),
+                    ),
                     'use_tax_for_price' => array(
                         "label"    => __( 'Use Taxes in Price Filters', "BeRocket_AJAX_domain" ),
                         "label_for"=> __( 'Only Standard tax rates will be applied for prices', "BeRocket_AJAX_domain" ),
@@ -1486,6 +1522,17 @@ function out_of_stock_variable_reload_hide() {
 }
 out_of_stock_variable_reload_hide();
 jQuery('.berocket_aapf_recount_hide, .out_of_stock_variable').on('change', out_of_stock_variable_reload_hide);
+function products_only_shortcode_hide() {
+    if( jQuery('.products_only_shortcode').prop('checked') ) {
+        jQuery('.products_only_shortcode_per_page').parent().show();
+        jQuery('.products_only_shortcode_pagiantion').parent().show();
+    } else {
+        jQuery('.products_only_shortcode_per_page').parent().hide();
+        jQuery('.products_only_shortcode_pagiantion').parent().hide();
+    }
+}
+products_only_shortcode_hide();
+jQuery('.products_only_shortcode').on('change', products_only_shortcode_hide);
 function load_fix_ajax_request_load() {
     if( jQuery('.load_fix_ajax_request_load').prop('checked') ) {
         jQuery('.load_fix_use_get_query').parent().show();
@@ -1687,6 +1734,20 @@ jQuery(document).on('change', '.berocket_disable_ajax_loading', berocket_disable
             $filtered = true;
         }
         return $filtered;
+    }
+    public function product_categories_shortcode_tag($shortcode) {
+        if ( br_is_filtered() ) {
+            add_shortcode( $shortcode, array($this, 'replace_with_products') );
+            $shortcode = $shortcode . '_disable';
+        }
+        return $shortcode;
+    }
+    public function replace_with_products($atts = array()) {
+        $option = $this->get_option();
+        $per_page = empty($option['products_only_shortcode_per_page']) ? '' : intval($option['products_only_shortcode_per_page']);
+        $paginate = empty($option['products_only_shortcode_pagiantion']) ? '' : ' paginate="1"';
+        $per_page = empty($per_page) ? '' : ' limit="'.$per_page.'"';
+        return do_shortcode( '[products berocket_aapf="true"' . $paginate . $per_page . ']' );
     }
     public function include_all_styles() {
         BeRocket_AAPF::wp_enqueue_style( 'berocket_aapf_widget-style' );
@@ -2239,6 +2300,18 @@ jQuery(document).on('change', '.berocket_disable_ajax_loading', berocket_disable
             $charset_collate .= " COLLATE {$wpdb->collate}";
         }
 
+        $server_info = $wpdb->db_server_info();
+        if( strpos($server_info, 'MariaDB') !== FALSE ) {
+            $check_col = $wpdb->get_results("SHOW COLUMNS from {$table_name} LIKE 'meta_id'");
+            if( count($check_col) == 0 ) {
+                $check_col = $wpdb->get_results("ALTER TABLE {$table_name} ADD `meta_id` bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY;");
+            } else {
+                $index = $wpdb->get_row("SHOW INDEXES FROM {$table_name}");
+                if(! empty($index) && $index->Key_name == 'meta_id' && $index->Column_name == 'meta_id' ) {
+                    $wpdb->query("ALTER TABLE {$table_name} DROP INDEX meta_id, ADD PRIMARY KEY (meta_id);");
+                }
+            }
+        }
         $sql = "CREATE TABLE {$table_name} (
             meta_id bigint(20) NOT NULL AUTO_INCREMENT,
             {$type}_id bigint(20) NOT NULL default 0,

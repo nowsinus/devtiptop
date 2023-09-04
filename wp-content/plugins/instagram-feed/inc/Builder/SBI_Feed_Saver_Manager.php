@@ -31,6 +31,8 @@ class SBI_Feed_Saver_Manager {
 		//Detect Leaving the Page
 		add_action( 'wp_ajax_sbi_feed_saver_manager_recache_feed', array( 'InstagramFeed\Builder\SBI_Feed_Saver_Manager', 'recache_feed' ) );
 
+
+
 	}
 
 	/**
@@ -199,7 +201,7 @@ class SBI_Feed_Saver_Manager {
 	 * @since 6.0
 	 */
 	public static function delete_source() {
-		check_ajax_referer( 'sbi_admin_nonce' , 'nonce');
+		check_ajax_referer( 'sbi-admin' , 'nonce');
 
 		if ( ! sbi_current_user_can( 'manage_instagram_feed_options' ) ) {
 			wp_send_json_error();
@@ -806,5 +808,8 @@ class SBI_Feed_Saver_Manager {
 		echo sbi_json_encode( $response );
 		wp_die();
 	}
+
+
+
 
 }

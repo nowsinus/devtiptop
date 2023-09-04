@@ -238,7 +238,7 @@ function braapf_filtered_filters_set() {
         var pagination_links = the_ajax_script.pagination_class;
         pagination_links = pagination_links.replace(',', ' a,');
         pagination_links = berocket_apply_filters('pagination_links_a_tags', pagination_links+' a', the_ajax_script.pagination_class);
-        if( !the_ajax_script.disable_ajax_loading && the_ajax_script.pagination_ajax ) {
+        if( !the_ajax_script.disable_ajax_loading && the_ajax_script.pagination_ajax && $(the_ajax_script.products_holder_id).length ) {
             $(document).on('click', pagination_links, function(event) {
                 event.preventDefault();
                 var href = $(this).attr('href');

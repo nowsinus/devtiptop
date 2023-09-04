@@ -65,7 +65,7 @@ class SBI_Source {
 	 * @since 6.0
 	 */
 	public static function builder_update() {
-		if ( ! check_ajax_referer( 'sbi_admin_nonce', 'nonce', false ) && ! check_ajax_referer( 'sbi-admin', 'nonce', false ) ) {
+		if ( ! check_ajax_referer( 'sbi-admin', 'nonce', false ) ) {
 			wp_send_json_error();
 		}
 		if ( ! sbi_current_user_can( 'manage_instagram_feed_options' ) ) {
@@ -165,7 +165,7 @@ class SBI_Source {
 	 * @since 6.0
 	 */
 	public static function builder_update_multiple() {
-		if ( ! check_ajax_referer( 'sbi_admin_nonce', 'nonce', false ) && ! check_ajax_referer( 'sbi-admin', 'nonce', false ) ) {
+		if ( ! check_ajax_referer( 'sbi-admin', 'nonce', false ) ) {
 			wp_send_json_error();
 		}
 		if ( ! sbi_current_user_can( 'manage_instagram_feed_options' ) ) {
@@ -202,7 +202,7 @@ class SBI_Source {
 	 * @since 6.0
 	 */
 	public static function get_page() {
-		if ( ! check_ajax_referer( 'sbi_admin_nonce', 'nonce', false ) && ! check_ajax_referer( 'sbi-admin', 'nonce', false ) ) {
+		if ( ! check_ajax_referer( 'sbi-admin', 'nonce', false ) ) {
 			wp_send_json_error();
 		}
 		if ( ! sbi_current_user_can( 'manage_instagram_feed_options' ) ) {

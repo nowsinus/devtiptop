@@ -88,7 +88,7 @@ class SBI_Feed_Builder {
 	public function builder_enqueue_admin_scripts() {
 		if ( get_current_screen() ) :
 			$screen = get_current_screen();
-			if ( strpos( $screen->id, 'sbi-feed-builder' ) !== false ) :
+			if ( strpos( $screen->id, 'sbi-feed-builder' ) !== false || strpos( $screen->id, 'sbi-setup' ) !== false ) :
 				$installed_plugins = get_plugins();
 
 				$newly_retrieved_source_connection_data = SBI_Source::maybe_source_connection_data();
@@ -110,13 +110,16 @@ class SBI_Feed_Builder {
 					'ajax_handler'         => admin_url( 'admin-ajax.php' ),
 					'pluginType'           => 'free',
 					'licenseType'          => sbi_is_pro_version() ? 'pro' : 'free',
-
+					'isSetupPage'			=> strpos( $screen->id, 'sbi-setup' ) !== false ? 'true' : 'false',
 					'builderUrl'           => admin_url( 'admin.php?page=sbi-feed-builder' ),
+					'setUpUrl'           => admin_url( 'admin.php?page=sbi-setup' ),
 					'upgradeUrl'           => $upgrade_url,
 					'activeExtensions'     => $active_extensions,
 					'pluginUrl'            => trailingslashit( SBI_PLUGIN_URL ),
 
 					'nonce'                => wp_create_nonce( 'sbi-admin' ),
+					'admin_nonce'             => wp_create_nonce( 'sbi_admin_nonce' ),
+
 					'adminPostURL'         => admin_url( 'post.php' ),
 					'widgetsPageURL'       => admin_url( 'widgets.php' ),
 					'themeSupportsWidgets' => current_theme_supports( 'widgets' ),
@@ -167,6 +170,10 @@ class SBI_Feed_Builder {
 						'onboarding'      => $this->get_onboarding_text()
 					),
 					'dialogBoxPopupScreen' => array(
+						'deleteSource' => array(
+							'heading' =>  __( 'Delete "#"?', 'instagram-feed' ),
+							'description' => __( 'This source is being used in a feed on your site. If you delete this source then new posts can no longer be retrieved for these feeds.', 'instagram-feed' ),
+						),
 						'deleteSourceCustomizer' => array(
 							'heading'     => __( 'Delete "#"?', 'instagram-feed' ),
 							'description' => __( 'You are going to delete this source. To retrieve it, you will need to add it again. Are you sure you want to continue?', 'instagram-feed' ),
@@ -471,6 +478,7 @@ class SBI_Feed_Builder {
 						),
 					),
 					'personalAccountScreen' => self::personal_account_screen_text(),
+			    	'onboardingWizardContent' => \InstagramFeed\admin\SBI_Onboarding_wizard::get_onboarding_wizard_content()
 
 				);
 
@@ -724,6 +732,7 @@ class SBI_Feed_Builder {
 			'done'                              => __( 'Done', 'instagram-feed' ),
 			'title'                             => __( 'Settings', 'instagram-feed' ),
 			'dashboard'                         => __( 'Dashboard', 'instagram-feed' ),
+			'setup'                         => __( 'Setup', 'instagram-feed' ),
 			'addNew'                            => __( 'Add New', 'instagram-feed' ),
 			'addSource'                         => __( 'Add Source', 'instagram-feed' ),
 			'addAnotherSource'                  => __( 'Add another Source', 'instagram-feed' ),
@@ -809,6 +818,7 @@ class SBI_Feed_Builder {
 			'topRated'                          => __( 'Top Rated', 'instagram-feed' ),
 			'mostRecent'                        => __( 'Most recent', 'instagram-feed' ),
 			'moderationModePreview'             => __( 'Moderation Mode Preview', 'instagram-feed' ),
+			'exitSetup'             			=> __( 'Exit Setup', 'instagram-feed' ),
 
 			'notification'                      => array(
 				'feedSaved'             => array(

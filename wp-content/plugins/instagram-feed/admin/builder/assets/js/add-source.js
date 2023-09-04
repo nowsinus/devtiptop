@@ -286,9 +286,11 @@ var sbiStorage = window.localStorage;
             //if(screenType != 'customizer'){
                 self.createLocalStorage(screenType);
             //}
+            if( self.$parent.isSetupPage === 'true'){
+                appendURL = appendURL+ ',is_setup_page=yes';
+            }
             var finalUrl = ifConnectURL + "{'{url=" + appendURL + "}'}";
             window.location = finalUrl;
-
         },
 
         /**
@@ -302,6 +304,9 @@ var sbiStorage = window.localStorage;
                 case 'creationProcess':
                     sbiStorage.setItem('selectedFeed', self.$parent.selectedFeed);
                     sbiStorage.setItem('feedTypeOnSourcePopup', self.$parent.feedTypeOnSourcePopup);
+                    if( self.$parent.isSetupPage === 'true'){
+                        sbiStorage.setItem('isSetupPage', 'true');
+                    }
                 break;
                 case 'customizer':
                     sbiStorage.setItem('selectedFeed', self.$parent.selectedFeedPopup);
@@ -322,6 +327,12 @@ var sbiStorage = window.localStorage;
          processIFConnectSuccess : function(){
             var self = this;
             if( sbiStorage.IFConnect === 'true' && sbiStorage.screenType ){
+                if( sbiStorage?.isSetupPage === 'true'  && sbiStorage?.isSetupPage ){
+                    sbiStorage.removeItem("isSetupPage");
+                    sbiStorage.setItem('setCurrentStep',1);
+                    window.location = window.location.href.replace('sbi-feed-builder', 'sbi-setup') ;
+                }
+
                if( sbiStorage.screenType == 'creationProcess' && sbiStorage.selectedFeed ){
                    self.$parent.selectedFeed = self.createSourcesArray(sbiStorage.selectedFeed);
                    self.$parent.feedTypeOnSourcePopup = sbiStorage.feedTypeOnSourcePopup;
@@ -335,11 +346,11 @@ var sbiStorage = window.localStorage;
                    window.location.search = urlParams;
                }
             }
-            localStorage.removeItem("IFConnect");
-            localStorage.removeItem("screenType");
-            localStorage.removeItem("selectedFeed");
-            localStorage.removeItem("feedTypeOnSourcePopup");
-            localStorage.removeItem("feed_id");
+            sbiStorage.removeItem("IFConnect");
+            sbiStorage.removeItem("screenType");
+            sbiStorage.removeItem("selectedFeed");
+            sbiStorage.removeItem("feedTypeOnSourcePopup");
+            sbiStorage.removeItem("feed_id");
         },
 
         groupNext : function() {

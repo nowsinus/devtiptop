@@ -15,6 +15,7 @@ class ET_Builder_Module_br_filter_single extends ET_Builder_Module {
         $this->name             = __( 'Single Filter', 'BeRocket_AJAX_domain' );
 		$this->child_title_var  = 'filter_id';
 		$this->folder_name = 'et_pb_berocket_modules';
+		$this->main_css_element            = '%%order_class%%';
 
         $query = new WP_Query(array('post_type' => 'br_product_filter', 'nopaging' => true, 'fields' => 'ids'));
         $posts = $query->get_posts();

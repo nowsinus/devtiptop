@@ -15,6 +15,7 @@ class ET_Builder_Module_braapf_filter_next extends ET_Builder_Module {
         $this->name       = __( 'BeRocket Filter Next Product', 'BeRocket_AJAX_domain' );
 		$this->folder_name = 'et_pb_berocket_modules';
         $this->fields_defaults = array();
+		$this->main_css_element = '%%order_class%%';
 	}
 
     function get_fields() {

@@ -3,7 +3,7 @@ Contributors: templateinvaders
 Tags: woocommerce, wishlist, woocommerce wishlist, shop, ecommerce
 Requires at least: 6.1
 Tested up to: 6.2
-Stable tag: 2.7.2
+Stable tag: 2.7.4
 Requires PHP: 7.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -158,6 +158,18 @@ Yes, you can! Join in on our [GitHub repository](https://github.com/TemplateInva
 
 
 == Changelog ==
+= 2.7.4 =
+*Release Date - 28 July 2023*
+
+* Fixed blind SQL injection vulnerability in a REST API endpoint
+
+= 2.7.3 =
+*Release Date - 19 July 2023*
+
+* Added support for WooCommerce 7.9
+* Switched support chat to an opt-in model from an opt-out model
+* Removed admin inline JavaScript
+
 = 2.7.2 =
 *Release Date - 21 June 2023*
 
